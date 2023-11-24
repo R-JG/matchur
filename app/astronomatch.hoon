@@ -1,13 +1,13 @@
-/-  astro-match
+/-  astronomatch
 /+  default-agent, dbug, mast
-/=  menu  /app/astro-match/menu
-/=  play  /app/astro-match/play
-/=  style  /app/astro-match/style
+/=  menu  /app/astronomatch/menu
+/=  play  /app/astronomatch/play
+/=  style  /app/astronomatch/style
 |%
 ++  route-def 
   %-  limo
-  :~  [/astro-match menu]
-      [/astro-match/play play]
+  :~  [/astronomatch menu]
+      [/astronomatch/play play]
   ==
 +$  front-end  [=display =cur-url]
 +$  state-0  [%0 =game]
@@ -27,7 +27,7 @@
 ++  on-init
   ^-  (quip card _this)
   :_  this(routes route-def)
-  [(~(arvo pass:io /bind) %e %connect `/'astro-match' %astro-match) ~]
+  [(~(arvo pass:io /bind) %e %connect `/'astronomatch' %astronomatch) ~]
 ++  on-save  
   !>(-.state)
 ++  on-load
@@ -60,7 +60,7 @@
     ?+  method.request.req  [(make-400:mast rid) state]
       %'GET'
         =/  url=path  (stab url.request.req)
-        ?:  =(/astro-match/style url)
+        ?:  =(/astronomatch/style url)
           [(make-css-response:mast rid style) state]
         :: ...
     ==

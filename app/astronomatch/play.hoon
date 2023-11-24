@@ -1,11 +1,11 @@
-/-  astro-match
+/-  astronomatch
 |=  =game
 |^  ^-  manx
 ::
 ;html
   ;head
     ;meta(charset "utf-8");
-    ;link(href "/astro-match/style", rel "stylesheet");
+    ;link(href "/astronomatch/style", rel "stylesheet");
   ==
   ;body
   ==

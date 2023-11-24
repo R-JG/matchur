@@ -8,6 +8,6 @@
 +$  game  [=tiles =score =moves-left]
 ::
 +$  routes  (list [path gate])
-+$  cur-url  $~(/astro-match path)
++$  cur-url  $~(/astronomatch path)
 +$  display  $~([[%html ~] [[%head ~] ~] [[%body ~] ~] ~] manx)
 --
