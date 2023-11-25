@@ -1,4 +1,6 @@
 |%
++$  board-x  $~(5 @ud)
++$  board-y  $~(5 @ud)
 +$  tier  ?(%comet %moon %planet %star %galaxy)
 +$  color  ?(%red %blue %green %yellow)
 +$  tile  [id=@t =tier =color]

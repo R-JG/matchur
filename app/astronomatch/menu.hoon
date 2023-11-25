@@ -1,4 +1,4 @@
-/-  astronomatch
+/-  *astronomatch
 |=  =game
 |^  ^-  manx
 ::
@@ -8,12 +8,21 @@
     ;link(href "/astronomatch/style", rel "stylesheet");
   ==
   ;body
+    ;button(event "/click/new-game"): New Game
+    ;div(class "board")
+      ;*  (turn tiles.game col)
+    ==
   ==
 ==
 ::
-++  test
-  |=  *
-  ^-  manx
-  ;div;
+++  col
+  |=  lt=(list tile)
+  ;div
+    ;*  (turn lt til)
+  ==
+::
+++  til
+  |=  =tile
+  ;div(class (weld "tile " (trip color.tile)));
 ::
 --

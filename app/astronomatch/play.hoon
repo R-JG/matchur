@@ -1,4 +1,4 @@
-/-  astronomatch
+/-  *astronomatch
 |=  =game
 |^  ^-  manx
 ::
@@ -7,8 +7,7 @@
     ;meta(charset "utf-8");
     ;link(href "/astronomatch/style", rel "stylesheet");
   ==
-  ;body
-  ==
+  ;body;
 ==
 ::
 ++  test
