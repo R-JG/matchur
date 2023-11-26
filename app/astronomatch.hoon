@@ -98,8 +98,7 @@
 ++  on-arvo   on-arvo:def
 ++  on-fail   on-fail:def
 --
-::
-::
+:: :: :: :: :: :: :: :: :: :: :: :: :: :: :: :: :: :: :: :: :: :: :: ::
 |%
 ++  new-tiles
   |=  eny=@
@@ -129,4 +128,51 @@
   ?:  =(case 2)  [id %comet %green]
   ?:  =(case 3)  [id %comet %yellow]
   ['error' %comet %red]
+::
+++  group-tiles
+  |=  ti=tiles
+  ^-  (list tile-group)
+  =/  acc=(list tile-group)  ~
+  =/  x=@ud  0
+  |-
+  ?~  ti
+    acc
+  =/  col=(list tile)  i.ti
+  =/  yac=(list [=color ys=(list @ud)])  ~
+  =/  y=@ud  0
+  |-
+  ?>  ti
+  ?~  col
+    %=  ^$
+      ti   t.ti
+      x    +(x)
+      acc
+        ?~  acc
+          %+  turn  yac
+          |=  [=color ys=(list @ud)]
+          =|  j=(jug @ud @ud)
+          [color (~(put ju j) x (silt ys))]
+        |-
+        :: for each y item in each group in yac,
+        :: find color group matches in acc and use (~(has ju coordinates.i.acc) (dec x) i.ys.i.yac)
+        :: if this turns up false, move on to t.ys.i.yac ...
+    ==
+  ?~  yac
+    %=  $
+      col  t.col
+      y    +(y)
+      yac  [[color.i.col [y ~]] ~]
+    ==
+  ?:  =(color.i.yac color.i.col)
+    %=  $
+      col  t.col
+      y    +(y)
+      yac  [[color.i.yac [y ys.i.yac]] t.yac]
+    ==
+  %=  $
+    col  t.col
+    y    +(y)
+    yac  [[color.i.col [y ~]] yac]
+  ==
+::
 --
