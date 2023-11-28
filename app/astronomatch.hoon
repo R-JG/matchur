@@ -76,6 +76,9 @@
     ?+  tags.client-poke  !!
       [%click %new-game ~]
         =.  tiles.game  (new-tiles eny.bol)
+        =/  grop  (group-tiles tiles.game)
+        ~&  '---------------------------------------------------------'
+        ~&  grop
         =/  new-display=manx  (rig:mast routes cur-url game)
         :-  [(gust:mast /display-updates display new-display) ~]
         state(display new-display)
@@ -131,8 +134,8 @@
 ::
 ++  group-tiles
   |=  ti=tiles
-  ^-  (list tile-group)
-  =/  acc=(list tile-group)  ~
+  ^-  tile-groups
+  =/  acc=tile-groups  ~
   =/  x=@ud  0
   |-
   ?~  ti
@@ -141,21 +144,69 @@
   =/  yac=(list [=color ys=(list @ud)])  ~
   =/  y=@ud  0
   |-
-  ?>  ti
+  ?~  ti  !!
   ?~  col
     %=  ^$
       ti   t.ti
       x    +(x)
       acc
-        ?~  acc
+        =/  hacc=tile-groups  acc
+        ?~  hacc
           %+  turn  yac
           |=  [=color ys=(list @ud)]
           =|  j=(jug @ud @ud)
-          [color (~(put ju j) x (silt ys))]
+          [color (~(put by j) x (silt ys))]
         |-
-        :: for each y item in each group in yac,
-        :: find color group matches in acc and use (~(has ju coordinates.i.acc) (dec x) i.ys.i.yac)
-        :: if this turns up false, move on to t.ys.i.yac ...
+        ?~  yac
+          acc
+        =/  prem=(unit @ud)  ~
+        =/  cys=(list @ud)  ys.i.yac
+        |-
+        ?~  yac  !!
+        ?~  cys
+          ?~  prem
+            %=  ^$
+              yac  t.yac
+              acc
+                =|  j=(jug @ud @ud)
+                :_  acc
+                [color.i.yac (~(put by j) x (silt ys.i.yac))]
+            ==
+          ^$(yac t.yac, acc acc)
+        =/  a=@ud  0
+        =/  aacc=tile-groups  acc
+        |-
+        ?~  ys.i.yac  !!
+        ?~  cys  !!
+        ?~  aacc
+          ^$(cys t.cys)
+        ?:  =(color.i.aacc color.i.yac)
+          ?:  (~(has ju coordinates.i.aacc) (dec x) i.cys)
+            ?~  prem
+              %=  ^$
+                cys  t.cys
+                prem  [~ a]
+                acc
+                  %^  snap  acc  a
+                  :-  color.i.aacc
+                  (~(put by coordinates.i.aacc) x (silt ys.i.yac))
+              ==
+            %=  ^$
+              cys  t.cys
+              acc
+                =/  merg=[(jug @ud @ud) (jug @ud @ud)]
+                  %+  ~(rib by coordinates:(snag u.prem acc))
+                    coordinates.i.aacc
+                  |=  [[k=@ud v=(set @ud)] riba=(jug @ud @ud)]
+                  ^-  [(jug @ud @ud) [@ud (set @ud)]]
+                  ?.  (~(has by riba) k)
+                    [(~(put by riba) k v) [k v]]
+                  [(~(put by riba) k (~(uni in (~(get ju riba) k)) v)) [k v]]
+                %^  snap  (oust [a 1] acc)  u.prem
+                [color.i.aacc -.merg]
+            ==
+          $(aacc t.aacc, a +(a))
+        $(aacc t.aacc, a +(a))
     ==
   ?~  yac
     %=  $

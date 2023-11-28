@@ -6,6 +6,7 @@
 +$  tile  [id=@t =tier =color]
 +$  tiles  (list (list tile))
 +$  tile-group  [=color coordinates=(jug @ud @ud)]
++$  tile-groups  (list tile-group)
 +$  score  @ud
 +$  moves-left  $~(20 @ud)
 +$  game  [=tiles =score =moves-left]
