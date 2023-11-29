@@ -10,19 +10,31 @@
   ;body
     ;button(event "/click/new-game"): New Game
     ;div(class "board")
-      ;*  (turn tiles.game col)
+      ;*  =/  x=@ud  0
+          |-
+          ?~  tiles.game
+            ~
+          :-  (col i.tiles.game x) 
+          $(tiles.game t.tiles.game, x +(x))
     ==
   ==
 ==
 ::
 ++  col
-  |=  lt=(list tile)
+  |=  [lt=(list tile) x=@ud]
+  ^-  manx
   ;div
-    ;*  (turn lt til)
+    ;*  =/  y=@ud  0
+        |-
+        ?~  lt
+          ~
+        :-  (til i.lt x y)
+        $(lt t.lt, y +(y))
   ==
 ::
 ++  til
-  |=  =tile
-  ;div(class (weld "tile " (trip color.tile)));
+  |=  [=tile x=@ud y=@ud]
+  ^-  manx
+  ;div(class (weld "tile " (trip color.tile)), event "/click/tile/{<x>}/{<y>}");
 ::
 --

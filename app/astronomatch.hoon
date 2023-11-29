@@ -73,15 +73,23 @@
     |=  json-req=json
     ^-  (quip card _state)
     =/  client-poke  (parse-json:mast json-req)
-    ?+  tags.client-poke  !!
-      [%click %new-game ~]
+    ?~  tags.client-poke  !!
+    ?~  t.tags.client-poke  !!
+    ?+  [i.tags.client-poke i.t.tags.client-poke]  !!
+      [%click %new-game]
         =.  tiles.game  (new-tiles eny.bol)
-        =/  grop  (group-tiles tiles.game)
+        =/  grop  (filter-matches (group-tiles tiles.game))
         ~&  '---------------------------------------------------------'
         ~&  grop
         =/  new-display=manx  (rig:mast routes cur-url game)
         :-  [(gust:mast /display-updates display new-display) ~]
         state(display new-display)
+      [%click %tile]
+        ?~  t.t.tags.client-poke  !!
+        ?~  t.t.t.tags.client-poke  !!
+        ~&  (slav %ud i.t.t.tags.client-poke)
+        ~&  (slav %ud i.t.t.t.tags.client-poke)
+        !!
     ==
   ::
   --
@@ -225,5 +233,22 @@
     y    +(y)
     yac  [[color.i.col [y ~]] yac]
   ==
+::
+++  filter-matches
+  :: to the sample, add a list of selection coordinates -> this is for the pair of swap coordinates
+  :: and for the coordinates of the groups just previously deleted for chain match functionality
+  :: (this could either be just these coordinates or all coordinates including and below these)
+  |=  gs=tile-groups
+  ^-  tile-groups
+  ?~  gs
+    ~
+  =/  vals=(list (set @ud))
+    ~(val by coordinates.i.gs)
+  =/  tils=@ud  %+  roll  vals
+    |=  [s=(set @ud) a=@ud]
+    (add ~(wyt in s) a)
+  ?:  (gte tils 3)
+    [i.gs $(gs t.gs)]
+  $(gs t.gs)
 ::
 --
