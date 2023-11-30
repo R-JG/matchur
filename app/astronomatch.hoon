@@ -4,7 +4,7 @@
 /=  play  /app/astronomatch/play
 /=  style  /app/astronomatch/style
 |%
-+$  front-end  [=display =cur-url]
++$  front-end  [=display =cur-url sel-one=selection sel-two=selection]
 +$  state-0  [%0 =game]
 +$  versioned-state
   $%  state-0
@@ -84,12 +84,33 @@
         =/  new-display=manx  (rig:mast routes cur-url game)
         :-  [(gust:mast /display-updates display new-display) ~]
         state(display new-display)
-      [%click %tile]
+      [%mousedown %tile]
         ?~  t.t.tags.client-poke  !!
         ?~  t.t.t.tags.client-poke  !!
-        ~&  (slav %ud i.t.t.tags.client-poke)
-        ~&  (slav %ud i.t.t.t.tags.client-poke)
-        !!
+        :-  ~
+        %=  state
+          sel-one  
+            :-  (slav %ud i.t.t.tags.client-poke)
+            (slav %ud i.t.t.t.tags.client-poke)
+        ==
+      [%mouseup %tile]
+        ?~  t.t.tags.client-poke  !!
+        ?~  t.t.t.tags.client-poke  !!
+        =.  sel-two
+          :-  (slav %ud i.t.t.tags.client-poke)
+          (slav %ud i.t.t.t.tags.client-poke)
+        ?:  ?|  
+          &(=(x.sel-one x.sel-two) =(y.sel-one y.sel-two))
+          ?!  ?|  
+            &(=(x.sel-one x.sel-two) |(=(y.sel-one +(y.sel-two)) =(+(y.sel-one) y.sel-two)))
+            &(=(y.sel-one y.sel-two) |(=(x.sel-one +(x.sel-two)) =(+(x.sel-one) x.sel-two)))
+            ==
+          ==
+          !!
+        =.  tiles.game  (swap-tiles tiles.game sel-one sel-two)
+        =/  new-display=manx  (rig:mast routes cur-url game)
+        :-  [(gust:mast /display-updates display new-display) ~]
+        state(display new-display)
     ==
   ::
   --
@@ -250,5 +271,13 @@
   ?:  (gte tils 3)
     [i.gs $(gs t.gs)]
   $(gs t.gs)
+::
+++  swap-tiles
+  |=  [ti=tiles selo=selection selt=selection]
+  ^-  tiles
+  =/  tilo=tile  (snag y.selo (snag x.selo ti))
+  =/  tilt=tile  (snag y.selt (snag x.selt ti))
+  =.  ti  (snap ti x.selo (snap (snag x.selo ti) y.selo tilt))
+  (snap ti x.selt (snap (snag x.selt ti) y.selt tilo))
 ::
 --

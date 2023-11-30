@@ -11,6 +11,7 @@
 +$  moves-left  $~(20 @ud)
 +$  game  [=tiles =score =moves-left]
 ::
++$  selection  [x=@ud y=@ud]
 +$  routes  (list [path gate])
 +$  cur-url  $~(/astronomatch path)
 +$  display  $~([[%html ~] [[%head ~] ~] [[%body ~] ~] ~] manx)

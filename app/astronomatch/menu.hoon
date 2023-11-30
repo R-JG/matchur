@@ -35,6 +35,6 @@
 ++  til
   |=  [=tile x=@ud y=@ud]
   ^-  manx
-  ;div(class (weld "tile " (trip color.tile)), event "/click/tile/{<x>}/{<y>}");
+  ;div(key (trip id.tile), class (weld "tile " (trip color.tile)), event "/mousedown/tile/{<x>}/{<y>} /mouseup/tile/{<x>}/{<y>}");
 ::
 --
