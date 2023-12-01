@@ -25,5 +25,11 @@ body {
   margin: 1rem;
   border: 1px solid black;
   cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: -moz-none;
+}
+.tile:active {
+  scale: 1.1;
 }
 '''

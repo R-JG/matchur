@@ -78,9 +78,6 @@
     ?+  [i.tags.client-poke i.t.tags.client-poke]  !!
       [%click %new-game]
         =.  tiles.game  (new-tiles eny.bol)
-        =/  grop  (filter-matches (group-tiles tiles.game))
-        ~&  '---------------------------------------------------------'
-        ~&  grop
         =/  new-display=manx  (rig:mast routes cur-url game)
         :-  [(gust:mast /display-updates display new-display) ~]
         state(display new-display)
@@ -108,6 +105,9 @@
           ==
           !!
         =.  tiles.game  (swap-tiles tiles.game sel-one sel-two)
+        =/  matches=tile-groups  (filter-matches (group-tiles tiles.game) [sel-one sel-two ~])
+        ~&  'matches'
+        ~&  matches
         =/  new-display=manx  (rig:mast routes cur-url game)
         :-  [(gust:mast /display-updates display new-display) ~]
         state(display new-display)
@@ -179,13 +179,7 @@
       ti   t.ti
       x    +(x)
       acc
-        =/  hacc=tile-groups  acc
-        ?~  hacc
-          %+  turn  yac
-          |=  [=color ys=(list @ud)]
-          =|  j=(jug @ud @ud)
-          [color (~(put by j) x (silt ys))]
-        |-
+        |-  ^-  tile-groups
         ?~  yac
           acc
         =/  prem=(unit @ud)  ~
@@ -210,7 +204,7 @@
         ?~  aacc
           ^$(cys t.cys)
         ?:  =(color.i.aacc color.i.yac)
-          ?:  (~(has ju coordinates.i.aacc) (dec x) i.cys)
+          ?:  &((gth x 0) (~(has ju coordinates.i.aacc) (dec x) i.cys))
             ?~  prem
               %=  ^$
                 cys  t.cys
@@ -256,13 +250,18 @@
   ==
 ::
 ++  filter-matches
-  :: to the sample, add a list of selection coordinates -> this is for the pair of swap coordinates
-  :: and for the coordinates of the groups just previously deleted for chain match functionality
-  :: (this could either be just these coordinates or all coordinates including and below these)
-  |=  gs=tile-groups
+  |=  [gs=tile-groups coor=(list [x=@ud y=@ud])]
   ^-  tile-groups
   ?~  gs
     ~
+  ?.  |-
+      ?~  gs  !!
+      ?~  coor
+        %.n
+      ?:  (~(has ju coordinates.i.gs) x.i.coor y.i.coor)
+        %.y
+      $(coor t.coor)
+    $(gs t.gs)
   =/  vals=(list (set @ud))
     ~(val by coordinates.i.gs)
   =/  tils=@ud  %+  roll  vals
