@@ -105,9 +105,13 @@
           ==
           !!
         =.  tiles.game  (swap-tiles tiles.game sel-one sel-two)
-        =/  matches=tile-groups  (filter-matches (group-tiles tiles.game) [sel-one sel-two ~])
+        =/  grop  (group-tiles tiles.game)
+        ~&  'grop'
+        ~&  grop
+        =/  matches=tile-groups  (filter-matches grop [sel-one sel-two ~])
         ~&  'matches'
         ~&  matches
+        =.  tiles.game  (delete-tiles tiles.game matches)
         =/  new-display=manx  (rig:mast routes cur-url game)
         :-  [(gust:mast /display-updates display new-display) ~]
         state(display new-display)
@@ -278,5 +282,28 @@
   =/  tilt=tile  (snag y.selt (snag x.selt ti))
   =.  ti  (snap ti x.selo (snap (snag x.selo ti) y.selo tilt))
   (snap ti x.selt (snap (snag x.selt ti) y.selt tilo))
+::
+++  delete-tiles
+  |=  [ti=tiles gr=tile-groups]
+  ^-  tiles
+  =/  x=@ud  0
+  |-
+  ?~  ti
+    ~
+  =/  y=@ud  0
+  :-
+    |-
+    ?~  ti  !!
+    ?~  i.ti
+      ~
+    ?:  |-
+        ?~  gr
+          %.n
+        ?:  (~(has ju coordinates.i.gr) x y)
+          %.y
+        $(gr t.gr)
+      $(i.ti t.i.ti, y +(y))
+    [i.i.ti $(i.ti t.i.ti, y +(y))]
+  $(ti t.ti, x +(x))
 ::
 --
