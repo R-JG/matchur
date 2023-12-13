@@ -1,11 +1,11 @@
-/-  *astronomatch
+/-  *matchur
 |=  =game
 |^  ^-  manx
 ::
 ;html
   ;head
     ;meta(charset "utf-8");
-    ;link(href "/astronomatch/style", rel "stylesheet");
+    ;link(href "/matchur/style", rel "stylesheet");
   ==
   ;body
     ;button(event "/click/new-game"): New Game

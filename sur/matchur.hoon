@@ -13,6 +13,6 @@
 ::
 +$  selection  [x=@ud y=@ud]
 +$  routes  (list [path gate])
-+$  cur-url  $~(/astronomatch path)
++$  cur-url  $~(/matchur path)
 +$  display  $~([[%html ~] [[%head ~] ~] [[%body ~] ~] ~] manx)
 --

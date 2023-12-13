@@ -1,8 +1,8 @@
-/-  *astronomatch
+/-  *matchur
 /+  default-agent, agentio, dbug, mast
-/=  menu  /app/astronomatch/menu
-/=  play  /app/astronomatch/play
-/=  style  /app/astronomatch/style
+/=  menu  /app/matchur/menu
+/=  play  /app/matchur/play
+/=  style  /app/matchur/style
 |%
 +$  front-end  [=display =cur-url sel-one=selection sel-two=selection]
 +$  state-0  [%0 =game]
@@ -22,14 +22,14 @@
     io    ~(. agentio bol)
     routes
       %-  limo
-      :~  [/astronomatch menu]
-          [/astronomatch/play play]
+      :~  [/matchur menu]
+          [/matchur/play play]
       ==
 :: :: :: :: :: :: :: :: :: :: :: :: :: :: :: :: :: :: :: :: :: :: :: ::
 ++  on-init
   ^-  (quip card _this)
   :_  this
-  [(~(arvo pass:io /bind) %e %connect `/'astronomatch' %astronomatch) ~]
+  [(~(arvo pass:io /bind) %e %connect `/'matchur' %matchur) ~]
 ++  on-save  
   !>(-.state)
 ++  on-load
@@ -62,10 +62,10 @@
     ?+  method.request.req  [(make-400:mast rid) state]
       %'GET'
         =/  url=path  (stab url.request.req)
-        ?:  =(/astronomatch/style url)
+        ?:  =(/matchur/style url)
           [(make-css-response:mast rid style) state]
         =/  new-display=manx  (rig:mast routes url game)
-        :-  (plank:mast "astronomatch" /display-updates our.bol rid new-display)
+        :-  (plank:mast "matchur" /display-updates our.bol rid new-display)
         state(display new-display, cur-url url)
     ==
   ::
